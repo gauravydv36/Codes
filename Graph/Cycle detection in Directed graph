@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+void dfs(map<int,vector<int>> &adj,vector<int> &vis,vector<int> &dfsvis,int node,int &ans){
+ vis[node]=1;
+ dfsvis[node]=1;
+ if(ans==1){
+   return;
+ }
+ for(int i=0;i<adj[node].size();i++){
+   if(vis[adj[node][i]]==0){
+     dfs(adj,vis,dfsvis,adj[node][i],ans);
+   }
+   if(dfsvis[adj[node][i]]==1 && vis[adj[node][i]]==1){
+    // cout<<node<<' '<<adj[node][i]<<'\n';
+    ans=1;
+    return;
+   }
+   }
+   dfsvis[node]=0;
+ }
+int detectCycleInDirectedGraph(int n, vector < pair < int, int >> & edges) {
+   int ans=0;
+  map<int,vector<int>> adj;
+  for(int i=0;i<edges.size();i++){
+    int u=edges[i].first;
+    int v=edges[i].second;
+    adj[u].push_back(v);
+  }
+  vector<int> vis(n+1,0);
+  vector<int> dfsvis(n+1,0);
+  for(int i=1;i<=n;i++){
+    if(vis[i]==0){
+       dfs(adj,vis,dfsvis,i,ans);
+    }
+  }
+  return ans;
+}
